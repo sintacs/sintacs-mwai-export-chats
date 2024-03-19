@@ -517,7 +517,7 @@ class SintacsMwaiExportChats
 
     public function exportChatsToPDF($chatIds)
     {
-        require_once('tcpdf/tcpdf.php'); // Pfad zur TCPDF-Bibliothek
+        require_once('vendor/tecnickcom/tcpdf/tcpdf.php'); // Pfad zur TCPDF-Bibliothek
         require_once('mwaiTcpdf.php');
 
         $pdf = new MwaiTCPDF();

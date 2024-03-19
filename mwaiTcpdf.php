@@ -1,5 +1,5 @@
 <?php
-require_once('tcpdf/tcpdf.php');
+require_once('vendor/tecnickcom/tcpdf/tcpdf.php');
 
 Class MwaiTCPDF extends TCPDF {
     public function Footer() {

@@ -1,0 +1,15 @@
+{
+  "name": "your-vendor-name/your-project-name",
+  "description": "A brief description of your project",
+  "require": {
+    "tecnickcom/tcpdf": "^6.4"
+  },
+  "authors": [
+    {
+      "name": "Your Name",
+      "email": "your.email@example.com"
+    }
+  ],
+  "minimum-stability": "stable",
+  "license": "Your License"
+}
