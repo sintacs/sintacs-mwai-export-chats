@@ -46,6 +46,7 @@ class SintacsMwaiExportChats
         }
 
 
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'export') {
             // Run your export function
             $this->export_chats();
