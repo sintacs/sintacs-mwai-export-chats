@@ -91,7 +91,6 @@ class SintacsMwaiExportChats
             return;
         }
 
-
         // Prüfen, ob "Export all" aktiviert ist
         if (isset($_POST['export-all']) && $_POST['export-all'] == '1') {
             // Alle Chat-IDs abrufen
@@ -357,7 +356,7 @@ class SintacsMwaiExportChats
             'total' => $total_pages,
             'current' => $current_page,
             'type' => 'array',
-            'show_all' => true // zeigt alle Seitenzahlen
+            'show_all' => true // shows all page numbers
         ));
         echo '<div class="tablenav">';
         // Display dropdown for export
@@ -393,14 +392,14 @@ class SintacsMwaiExportChats
             echo '<a class="first-page button ' . ($current_page == 1 ? 'disabled' : 'page-numbers prev') . '" href="' . add_query_arg('paged', 1) . '"><span class="screen-reader-text">Erste Seite</span><span aria-hidden="true">«</span></a>';
             echo '<a class="prev-page button ' . ($current_page == 1 ? 'disabled' : 'page-numbers prev') . '" href="' . add_query_arg('paged', max($page_prev, 1)) . '"><span class="screen-reader-text">Vorherige Seite</span><span aria-hidden="true">‹</span></a>';
 
-            // Aktuelle Seite Eingabe
+            // Current page input
             echo '<span class="paging-input">';
             echo '<label for="current-page-selector" class="screen-reader-text">Aktuelle Seite</label>';
             echo '<input class="current-page" id="current-page-selector" type="text" name="paged" value="' . $current_page . '" size="1">';
             echo '<span class="tablenav-paging-text"> of <span class="total-pages">' . $total_pages . '</span></span>';
             echo '</span>';
 
-            // Nächste und letzte Seite Links
+            // Next and last page links
             echo '<a class="next-page button ' . ($current_page == $total_pages ? 'disabled' : 'page-numbers next') . '" href="' . add_query_arg('paged',$current_page + 1) . '"><span class="screen-reader-text">Nächste Seite</span><span aria-hidden="true">›</span></a>';
             echo '<a class="last-page button ' . ($current_page == $total_pages ? 'disabled' : 'page-numbers next') . '" href="' . add_query_arg('paged',$total_pages) . '"><span class="screen-reader-text">Letzte Seite</span><span aria-hidden="true">»</span></a>';
 
@@ -532,17 +531,17 @@ class SintacsMwaiExportChats
         foreach ($chats as $chat) {
             $messages = json_decode($chat['messages'],true);
 
-            // Zählen, wie viele Nachrichten vom User gesendet wurden
+            // Count how many messages were sent by the user
             $userMessagesCount = count(array_filter($messages,function ($message) {
                 return $message['role'] === 'user';
             }));
 
-            // Datum im deutschen Format umwandeln
+            // Convert date to German format
             $createdDate = strtotime($chat['created']);
             $wochentagKurz = $this->getGermanDayShortName(date('D',$createdDate));
             $createdDeutsch = $wochentagKurz . ', ' . date('d.m.Y H:i',$createdDate);
 
-            // Header-Informationen für jeden Chat
+            // Header information for each chat
             $headerHtml = "<h2>Chat Details</h2>"
                 . "<strong>ChatID:</strong> {$chat['chatId']}<br>"
                 . "<strong>Created:</strong> {$createdDeutsch}<br>"
@@ -550,9 +549,9 @@ class SintacsMwaiExportChats
             $pdf->writeHTMLCell(0,0,'','',$headerHtml,0,1,0,true,'',true);
 
             foreach ($messages as $message) {
-                // Rolle vor der Nachricht hinzufügen
+                // Add role before message
                 $rolePrefix = ucfirst($message['role']) . ': ';
-                // Farbe und Ausrichtung basierend auf der Rolle setzen
+                // Set color and alignment based on role
                 if ($message['role'] === 'user') {
                     $pdf->SetTextColor(0,0,139); // Dunkelblau für User
                     $align = 'L';
@@ -560,19 +559,19 @@ class SintacsMwaiExportChats
                     $pdf->SetTextColor(0,0,0); // Schwarz für Assistant
                     $align = 'R';
                 }
-                // Verwenden Sie MultiCell für automatischen Umbruch und fügen Sie die Rolle vor der Nachricht hinzu
+                // Use MultiCell for automatic wrapping and add the role before the message
                 $pdf->MultiCell(0,10,$rolePrefix . $message['content'],0,$align,false,1);
-                // Fügen Sie einen zusätzlichen Zeilenumbruch nach jeder Nachricht hinzu, um mindestens eine Zeile Abstand zu gewährleisten
+                // Add an additional line break after each message to ensure at least one line of spacing
                 $pdf->Ln(5);
             }
 
-            // Fügen Sie einen größeren Abstand nach jedem Chat hinzu
+            // Add more space after each chat
             $pdf->Ln(10);
-            // und eine horizontale Trennlinie
+            // and a horizontal dividing line
             $pdf->Line(10,0,200,0);
         }
 
-        // PDF im Browser anzeigen
+        // View PDF in browser
         $pdf->Output('chat-export.pdf','I');
     }
 
