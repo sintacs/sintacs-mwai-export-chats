@@ -32,6 +32,11 @@ Yes, there is an option to export all chats, or you can select specific chat IDs
 
 == Changelog ==
 
+= 1.05 =
+
+Fix
+- streamlined post export action from generic export to sintacs_mwai_export
+
 = 1.04 =
 
 Fix

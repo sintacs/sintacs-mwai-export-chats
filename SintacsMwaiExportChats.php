@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Sintacs Meow AI Engine Discussions Export
  * Description: Plugin to xport Discussions/Chats from Meow AI Engine
- * Version:     1.04
+ * Version:     1.05
  * Author:      Dirk Krölls / Sintacs | chats-export@sintacs.de
  * Author URI:  https://sintacs.de
  * License:     GPLv2
@@ -47,7 +47,7 @@ class SintacsMwaiExportChats
 
 
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'export') {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'sintacs_mwai_export') {
             // Run your export function
             $this->export_chats();
         }
@@ -378,7 +378,7 @@ class SintacsMwaiExportChats
         echo '</div>';
 
         echo '<input type="submit" class="button button-primary" value="' . __('Export') . '" id="export-button"  />';
-        echo '<input type="hidden" name="action" value="export" />';
+        echo '<input type="hidden" name="action" value="sintacs_mwai_export" />';
         //echo '</form>';
         echo '</div>';
 
