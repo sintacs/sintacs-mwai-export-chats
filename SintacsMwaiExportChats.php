@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Sintacs Meow AI Engine Discussions Export
  * Description: Plugin to xport Discussions/Chats from Meow AI Engine
- * Version:     1.05
+ * Version:     1.05a
  * Author:      Dirk Krölls / Sintacs | chats-export@sintacs.de
  * Author URI:  https://sintacs.de
  * License:     GPLv2

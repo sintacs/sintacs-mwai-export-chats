@@ -3,7 +3,7 @@ Tags: chat, export, AI Engine, JSON, CSV, PDF
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Export your Meow AI Engine chat data into various formats with the Sintacs Mwai Export Chats plugin, easily and efficiently.
+Export your Meow AI Engine (Pro) chat data into various formats with the Sintacs Mwai Export Chats plugin, easily and efficiently.
 
 == Description ==
 
@@ -13,13 +13,13 @@ The Sintacs Mwai Export Chats plugin is a powerful tool who need to export chat 
 
 1. Upload the `sintacs-mwai-export-chats` folder to the `/wp-content/plugins/` directory or install the plugin through the WordPress plugins screen directly.
 2. Activate the plugin through the 'Plugins' screen in WordPress.
-3. Use the sub menu item 'AI Engine Export' under the Meows Apps menu item to access the export features.
+3. Use the sub menu item 'AI Engine Export' under the Meows Apps menu item or WordPress Tools sectionto access the export features.
 
 == Frequently Asked Questions ==
 
-= Does this plugin require the AI Engine plugin to be installed? =
+= Does this plugin require the AI Engine (Pro) plugin to be installed? =
 
-Yes, the Sintacs Mwai Export Chats plugin is built to work with the AI Engine plugin. Make sure it is installed and activated to utilize all features.
+Yes, the Sintacs Mwai Export Chats plugin is built to work with the AI Engine (Pro) plugin. Make sure it is installed and activated to utilize all features.
 
 = What formats can I export the chats to? =
 
