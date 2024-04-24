@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name: Sintacs Meow AI Engine Discussions Export
- * Description: Plugin to xport Discussions/Chats from Meow AI Engine
- * Version:     1.05a
+ * Description: Plugin to Export Discussions/Chats from Meow AI Engine
+ * Version:     1.06
  * Author:      Dirk Krölls / Sintacs | chats-export@sintacs.de
  * Author URI:  https://sintacs.de
  * License:     GPLv2
@@ -44,7 +44,6 @@ class SintacsMwaiExportChats
         } else {
             $this->ai_engine_is_active = false;
         }
-
 
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'sintacs_mwai_export') {
@@ -123,7 +122,7 @@ class SintacsMwaiExportChats
             $this->exportChatsToPDF($chatIds);
         } else {
             // If the export type is unknown, throw an error
-           echo "Unknown export type: $exportType";
+            echo "Unknown export type: $exportType";
         }
 
         // Output the data
@@ -167,7 +166,7 @@ class SintacsMwaiExportChats
                 'AI Engine Export', // menu_title
                 'manage_options', // capability
                 'chats_export', // menu_slug
-                [$this, 'show_export_page'] // function
+                [$this,'show_export_page'] // function
             );
         }
     }
@@ -291,7 +290,6 @@ class SintacsMwaiExportChats
         // Display table
         echo '<div class="wrap">';
 
-
         echo '<form id="export" method="post" action="" target="_blank" class="form-wrap">';
 
         $this->display_pagination($current_page,$total_pages);
@@ -308,6 +306,7 @@ class SintacsMwaiExportChats
 
         //echo '<th>Extra</th>';
         echo '<th>BotID</th>';
+        echo '<th>Bot-Name</th>';
         echo '<th>ChatID</th>';
         echo '<th>Created</th>';
         echo '<th>Updated</th>';
@@ -317,6 +316,7 @@ class SintacsMwaiExportChats
 
         echo '<tbody>';
         foreach ($chats as $chat) {
+            $chatbot_settings = $this->get_chatbot_settings($chat->botId);
             echo '<tr>';
             echo '<th scope="row" class="check-column"><input type="checkbox" class="select-chat" name="chat_ids[]" value="' . esc_attr($chat->id) . '" /></th>';
             echo '<td>' . substr($this->format_messages($chat->messages),0,100) .
@@ -330,6 +330,8 @@ class SintacsMwaiExportChats
 
             //echo '<td>' . esc_html($chat->extra) . '</td>';
             echo '<td>' . esc_html($chat->botId) . '</td>';
+            echo '<td>' . esc_html($chatbot_settings['name']) . '</td>';
+
             echo '<td>' . esc_html($chat->chatId) . '</td>';
             echo '<td>' . esc_html($chat->created) . '</td>';
             echo '<td>' . esc_html($chat->updated) . '</td>';
@@ -390,8 +392,8 @@ class SintacsMwaiExportChats
 
             // Previous and first page links
             $page_prev = $current_page - 1;
-            echo '<a class="first-page button ' . ($current_page == 1 ? 'disabled' : 'page-numbers prev') . '" href="' . add_query_arg('paged', 1) . '"><span class="screen-reader-text">Erste Seite</span><span aria-hidden="true">«</span></a>';
-            echo '<a class="prev-page button ' . ($current_page == 1 ? 'disabled' : 'page-numbers prev') . '" href="' . add_query_arg('paged', max($page_prev, 1)) . '"><span class="screen-reader-text">Vorherige Seite</span><span aria-hidden="true">‹</span></a>';
+            echo '<a class="first-page button ' . ($current_page == 1 ? 'disabled' : 'page-numbers prev') . '" href="' . add_query_arg('paged',1) . '"><span class="screen-reader-text">Erste Seite</span><span aria-hidden="true">«</span></a>';
+            echo '<a class="prev-page button ' . ($current_page == 1 ? 'disabled' : 'page-numbers prev') . '" href="' . add_query_arg('paged',max($page_prev,1)) . '"><span class="screen-reader-text">Vorherige Seite</span><span aria-hidden="true">‹</span></a>';
 
             // Current page input
             echo '<span class="paging-input">';
@@ -445,6 +447,15 @@ class SintacsMwaiExportChats
 //echo 'sql: ' . $sql;
         // Execute the query
         $chats = $wpdb->get_results($sql,ARRAY_A);
+
+        // Add chatbot name from chatbot_settings array to array
+        foreach ($chats as &$chat) {
+            $chatbot_settings = $this->get_chatbot_settings($chat['botId']);
+            $chat['botName'] = $chatbot_settings['name'];
+        }
+
+        return $chats;
+
 //print_r($chats);
         return $chats;
     }
@@ -460,9 +471,13 @@ class SintacsMwaiExportChats
         $chats = $this->get_chat_data($chatIds);
 
         // Define headers
-        $output = "ConversationID|UserID|BotID|DateTime|UserQuestion|AssistantAnswer\n";
+        $output = "ConversationID|UserID|BotID|BotName|DateTime|UserQuestion|AssistantAnswer\n";
 
         foreach ($chats as $chat) {
+
+            // Get chatbot settings with BotName
+            $chatbot_settings = $this->get_chatbot_settings($chat['botId']);
+
             // messages is JSON, decode it into a PHP array
             $messages = json_decode($chat['messages'],true);
 
@@ -485,6 +500,7 @@ class SintacsMwaiExportChats
                         $chat['chatId'],
                         $chat['userId'],
                         $chat['botId'],
+                        $chatbot_settings['name'],
                         $dateTime,
                         $previousUserMessage,
                         $message['content']
@@ -532,6 +548,9 @@ class SintacsMwaiExportChats
         foreach ($chats as $chat) {
             $messages = json_decode($chat['messages'],true);
 
+            // Get chatbot settings with BotName
+            $chatbot_settings = $this->get_chatbot_settings($chat['botId']);
+
             // Count how many messages were sent by the user
             $userMessagesCount = count(array_filter($messages,function ($message) {
                 return $message['role'] === 'user';
@@ -545,6 +564,7 @@ class SintacsMwaiExportChats
             // Header information for each chat
             $headerHtml = "<h2>Chat Details</h2>"
                 . "<strong>ChatID:</strong> {$chat['chatId']}<br>"
+                . "<strong>BotName:</strong> {$chatbot_settings['name']}<br>"
                 . "<strong>Created:</strong> {$createdDeutsch}<br>"
                 . "<strong>User Messages :</strong> {$userMessagesCount}<br>";
             $pdf->writeHTMLCell(0,0,'','',$headerHtml,0,1,0,true,'',true);
@@ -665,6 +685,22 @@ class SintacsMwaiExportChats
         ];
 
         return $days[$day] ?? 'Unbekannt';
+    }
+
+    private function get_chatbot_settings($botId = null)
+    {
+        // Retrieve chatbots from WP options under the key 'mwai_chatbots'
+        $chatbots = get_option('mwai_chatbots',[]);
+
+        if ($botId) {
+            foreach ($chatbots as $chatbot) {
+                if ($chatbot['botId'] === $botId) {
+                    return $chatbot;
+                }
+            }
+        }
+
+        return $chatbots;
     }
 }
 
