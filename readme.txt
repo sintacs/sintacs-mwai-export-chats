@@ -32,6 +32,12 @@ Yes, there is an option to export all chats, or you can select specific chat IDs
 
 == Changelog ==
 
+
+= 1.06 =
+
+New
+- Added new column Chatbot-Name to Discussions export table and to the export-files
+
 = 1.05 =
 
 Fix
