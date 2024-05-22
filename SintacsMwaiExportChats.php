@@ -25,26 +25,20 @@ class SintacsMwaiExportChats
     {
         global $wpdb;
 
-        add_action('admin_menu',[$this,'add_admin_menu'],11);
-        //add_action('admin_enqueue_scripts','enqueue_datepicker_assets');
-        add_filter('query_vars',array($this,'add_query_vars'));
-
-        // Check if either 'ai-engine-pro/ai-engine-pro.php' or 'ai-engine/ai-engine.php' plugin is installed and active
-        /*
-        if (is_plugin_active('ai-engine-pro/ai-engine.php') || is_plugin_active('ai-engine/ai-engine.php')) {
-            $this->ai_engine_is_active = true;
-        }
-        */
-
         // Check if the table with the chats exists
         // Get the table name with the correct prefix
         $table_name = $wpdb->prefix . 'mwai_chats';
+
         if ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") == $table_name) {
+
             $this->ai_engine_is_active = true;
         } else {
             $this->ai_engine_is_active = false;
         }
 
+        add_action('admin_menu',[$this,'add_admin_menu'],11);
+        //add_action('admin_enqueue_scripts','enqueue_datepicker_assets');
+        add_filter('query_vars',array($this,'add_query_vars'));
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'sintacs_mwai_export') {
             // Run your export function
