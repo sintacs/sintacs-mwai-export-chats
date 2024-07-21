@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Sintacs Meow AI Engine Discussions Export
  * Description: Plugin to Export Discussions/Chats from Meow AI Engine
- * Version:     1.06
+ * Version:     1.07
  * Author:      Dirk Krölls / Sintacs | chats-export@sintacs.de
  * Author URI:  https://sintacs.de
  * License:     GPLv2
@@ -294,6 +294,7 @@ class SintacsMwaiExportChats
         echo '<tr>';
         echo '<td class="manage-column column-cb check-column"><input type="checkbox" id="select-all" /></td>';
         echo '<th>Messages</th>';
+        echo '<th># Messages</th>';
         echo '<th>ID</th>';
         echo '<th>UserID</th>';
         //echo '<th>IP</th>';
@@ -305,12 +306,15 @@ class SintacsMwaiExportChats
         echo '<th>Created</th>';
         echo '<th>Updated</th>';
         //echo '<th>ThreadID</th>';
+
         echo '</tr>';
         echo '</thead>';
 
         echo '<tbody>';
         foreach ($chats as $chat) {
             $chatbot_settings = $this->get_chatbot_settings($chat->botId);
+            $messageCount = count(json_decode($chat->messages, true)); // Decode and count the messages
+            echo '<tr>';
             echo '<tr>';
             echo '<th scope="row" class="check-column"><input type="checkbox" class="select-chat" name="chat_ids[]" value="' . esc_attr($chat->id) . '" /></th>';
             echo '<td>' . substr($this->format_messages($chat->messages),0,100) .
@@ -318,6 +322,7 @@ class SintacsMwaiExportChats
                 '\'); chat.style.display = chat.style.display === \'none\' ? \'block\' : \'none\'; return false;">Show / Hide</a>' .
                 '<div id="chat-' . esc_html($chat->chatId) . '" style="display: none; overflow: auto;">' .
                 ($this->format_messages($chat->messages)) . '</div>' . '</td>';
+            echo '<td>'. esc_html($messageCount). '</td>';
             echo '<td>' . esc_html($chat->id) . '</td>';
             echo '<td>' . esc_html($chat->userId) . '</td>';
             //echo '<td>' . esc_html($chat->ip) . '</td>';
@@ -330,6 +335,7 @@ class SintacsMwaiExportChats
             echo '<td>' . esc_html($chat->created) . '</td>';
             echo '<td>' . esc_html($chat->updated) . '</td>';
             //echo '<td>' . esc_html($chat->threadId) . '</td>';
+
             echo '</tr>';
         }
         echo '</tbody>';
@@ -381,7 +387,7 @@ class SintacsMwaiExportChats
         if ($page_links) {
             echo '<div class="aligncenter actions">';
             echo '<div class="tablenav-pages">';
-            echo '<span class="displaying-num">' . $this->get_total_chats() . ' ' . __('Entries') . '</span>';
+            echo '<span class="displaying-num">' . $this->get_total_chats() . ' ' . __('Discussions') . ' | ' . $this->countTotalMessages() . ' ' . __('Messages') . '</span>';
             echo '<span class="pagination-links">';
 
             // Previous and first page links
@@ -465,15 +471,18 @@ class SintacsMwaiExportChats
         $chats = $this->get_chat_data($chatIds);
 
         // Define headers
-        $output = "ConversationID|UserID|BotID|BotName|DateTime|UserQuestion|AssistantAnswer\n";
+        $output = "ConversationID|ID|UserID|BotID|BotName|DateTime|UserQuestion|AssistantAnswer|Message Count\n";
 
         foreach ($chats as $chat) {
 
             // Get chatbot settings with BotName
             $chatbot_settings = $this->get_chatbot_settings($chat['botId']);
 
-            // messages is JSON, decode it into a PHP array
-            $messages = json_decode($chat['messages'],true);
+            // Messages is JSON, decode it into a PHP array
+            $messages = json_decode($chat['messages'], true);
+
+            // Calculate message count
+            $messageCount = count($messages);
 
             // Initialize previous user message
             $previousUserMessage = '';
@@ -492,12 +501,14 @@ class SintacsMwaiExportChats
                     // Output a row for each question-answer pair
                     $row = [
                         $chat['chatId'],
+                        $chat['id'],
                         $chat['userId'],
                         $chat['botId'],
                         $chatbot_settings['name'],
                         $dateTime,
                         $previousUserMessage,
-                        $message['content']
+                        $message['content'],
+                        $messageCount
                     ];
 
                     // Convert array to CSV string and append to output
@@ -635,6 +646,22 @@ class SintacsMwaiExportChats
         return $formatted_messages;
     }
 
+    function countTotalMessages() {
+        // Assuming $wpdb is the global WordPress database access object
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'mwai_chats';
+
+        // Fetch all chats
+        $chats = $wpdb->get_results("SELECT messages FROM $table_name", ARRAY_A);
+
+        $totalMessages = 0;
+        foreach ($chats as $chat) {
+            $messages = json_decode($chat['messages'], true);
+            $totalMessages += count($messages);
+        }
+
+        return $totalMessages;
+    }
 
     /**
      * Add custom query vars.

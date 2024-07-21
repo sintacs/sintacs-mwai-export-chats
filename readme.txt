@@ -32,6 +32,11 @@ Yes, there is an option to export all chats, or you can select specific chat IDs
 
 == Changelog ==
 
+= 1.07 =
+
+Added
+- New column with the total number of messages in a discussion / chat added to the discussions table.
+- New column with the total number of messages added to the CSV-Export.
 
 = 1.06 =
 
