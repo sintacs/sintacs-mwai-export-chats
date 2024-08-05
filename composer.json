@@ -1,15 +1,16 @@
 {
-  "name": "your-vendor-name/your-project-name",
-  "description": "A brief description of your project",
+  "name": "sintacs/mwai-export-chats",
+  "description": "Export chats from MWAI (Meow AI) to various formats",
   "require": {
-    "tecnickcom/tcpdf": "^6.4"
+    "tecnickcom/tcpdf": "^6.4",
+    "php": ">=7.4"
   },
   "authors": [
     {
-      "name": "Your Name",
-      "email": "your.email@example.com"
+      "name": "Dirk Krölls",
+      "email": "support@sintacs.de"
     }
   ],
   "minimum-stability": "stable",
-  "license": "Your License"
+  "license": "MIT"
 }

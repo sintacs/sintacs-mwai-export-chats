@@ -1,0 +1,133 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Sintacs Meow AI Engine Discussions Export 1.07a\n"
+"PO-Revision-Date: 2023-10-01 12:00+0000\n"
+"Last-Translator: Dirk Krölls <chats-export@sintacs.de>\n"
+"Language-Team: Spanish <chats-export@sintacs.de>\n"
+"Language: es_ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "This plugin requires the <a target=\"_blank\" href=\"https://wordpress.org/plugins/ai-engine/\">AI Engine plugin</a> to be installed and active."
+msgstr "Este plugin requiere que el <a target=\"_blank\" href=\"https://wordpress.org/plugins/ai-engine/\">plugin AI Engine</a> esté instalado y activo."
+
+msgid "Discussions Export"
+msgstr "Exportar Discusiones"
+
+msgid "Export all"
+msgstr "Exportar todo"
+
+msgid "Discussions per page:"
+msgstr "Discusiones por página:"
+
+msgid "Refresh"
+msgstr "Actualizar"
+
+msgid "Date From:"
+msgstr "Fecha Desde:"
+
+msgid "Date To:"
+msgstr "Fecha Hasta:"
+
+msgid "User ID:"
+msgstr "ID de Usuario:"
+
+msgid "All Users"
+msgstr "Todos los Usuarios"
+
+msgid "Guest"
+msgstr "Invitado"
+
+msgid "Bot ID:"
+msgstr "ID del Bot:"
+
+msgid "All Bots"
+msgstr "Todos los Bots"
+
+msgid "Chat ID:"
+msgstr "ID del Chat:"
+
+msgid "All Chats"
+msgstr "Todos los Chats"
+
+msgid "Filter"
+msgstr "Filtrar"
+
+msgid "Reset"
+msgstr "Restablecer"
+
+msgid "No chats found."
+msgstr "No se encontraron chats."
+
+msgid "Messages"
+msgstr "Mensajes"
+
+msgid "# Messages"
+msgstr "# Mensajes"
+
+msgid "ID"
+msgstr "ID"
+
+msgid "UserID"
+msgstr "ID de Usuario"
+
+msgid "Bot ID"
+msgstr "ID del Bot"
+
+msgid "Bot Name"
+msgstr "Nombre del Bot"
+
+msgid "ChatID"
+msgstr "ID del Chat"
+
+msgid "Created"
+msgstr "Creado"
+
+msgid "Updated"
+msgstr "Actualizado"
+
+msgid "Export as..."
+msgstr "Exportar como..."
+
+msgid "Export (filtered)"
+msgstr "Exportar (filtrado)"
+
+msgid "Export"
+msgstr "Exportar"
+
+msgid "Please select an export format."
+msgstr "Por favor, seleccione un formato de exportación."
+
+msgid "Please select at least one chat."
+msgstr "Por favor, seleccione al menos un chat."
+
+msgid "Show / Hide"
+msgstr "Mostrar / Ocultar"
+
+msgid "Invalid export format"
+msgstr "Formato de exportación no válido"
+
+msgid "Chat Details"
+msgstr "Detalles del chat"
+
+msgid "ChatID:"
+msgstr "ID del chat:"
+
+msgid "BotName:"
+msgstr "Nombre del bot:"
+
+msgid "Created:"
+msgstr "Creado:"
+
+msgid "User Messages:"
+msgstr "Mensajes del usuario:"
+
+msgid "Unknown"
+msgstr "Desconocido"
+
+msgid "There was an error creating the PDF. Please try again later or contact the administrator."
+msgstr "Hubo un error al crear el PDF. Por favor, inténtelo de nuevo más tarde o contacte con el administrador."
+
+msgid "PDF Export Error"
+msgstr "Error de exportación PDF"
