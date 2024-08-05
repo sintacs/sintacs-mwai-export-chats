@@ -149,7 +149,6 @@ class Database {
         global $wpdb;
         $table_name = $wpdb->prefix . 'mwai_chats';
         $placeholders = implode( ',', array_fill( 0, count( $chatIds ), '%d' ) );
-        error_log( 'chatIds2: ' . print_r( $chatIds, true ) );
         return $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$table_name} WHERE id IN ({$placeholders})", ...$chatIds ), ARRAY_A );
     }
 
