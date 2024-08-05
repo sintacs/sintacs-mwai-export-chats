@@ -41,7 +41,7 @@ Yes, there is an option to export all chats, or you can select specific chat IDs
 ## 2.0.0
 Added
 - Option to Upgrade to the premium version with filters
-- Filters options to filter the disccussions by Date/Time, User-ID, Bot-ID and Chat-ID (Premium)
+- Filters options to filter the discussions by Date/Time, User-ID, Bot-ID and Chat-ID (Premium)
 - Streamlined the code
 - Various other improvements
 
