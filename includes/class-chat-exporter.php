@@ -95,7 +95,7 @@ class ChatExporter
     private function exportPDF(array $chats): void
     {
         try {
-            require_once(plugin_dir_path(dirname(__FILE__)) . 'includes/class-sintacs-tcpdf.php');
+            require_once(plugin_dir_path(dirname(__FILE__)) . 'includes/class-sintacs-Tcpdf.php');
 
             $pdf = new \SintacsMwaiExportChats\SintacsTCPDFPlugin();
             $pdf->setPrintHeader(false);
